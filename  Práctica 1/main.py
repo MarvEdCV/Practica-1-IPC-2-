@@ -6,6 +6,7 @@ lines = []
 line = []
 recordList = []
 lineSplit = []
+idList=[]
 
 #Clase creada para poder manejar objetos de tipo Datos para cada registro diferente
 class Data:
@@ -25,7 +26,7 @@ def InvalidOp(op, limI, limS):
         print("Opcion valida\n")
 
 def ReadingData():
-    global lines , line, recordList, lineSplit
+    global lines , line, recordList, lineSplit,idList
     nameFile =  input('Escriba la ruta o el nombre(como ruta relativa) del archivo csv debe de'
                       ' ingresar un nombre de ls siguiente manera(ejemplo.csv): \n')
 
@@ -36,9 +37,13 @@ def ReadingData():
     for line in lines:
         if line != lines[0]:
             lineSplit = line.split(",")
-            recordList.append(Data(lineSplit[0],lineSplit[1],lineSplit[2],lineSplit[3],lineSplit[4],lineSplit[5]))
-            #Aqui ya tengo una lista con todos los registros y sus debidos atributos.
-
+            if lineSplit[0] not in idList:
+                idList.append(lineSplit[0])#Creo una lista de Id para filtrar luego los que se vayan añadiendo
+                recordList.append(Data(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5]))
+                # Aqui ya tengo una lista con todos los registros y sus debidos atributos
+            elif (lineSplit[0] in idList):
+                print("\nxSe ha  encontrado un Id repetido!!!\n")
+    print(recordList)
     print("\nArchivo CSV leído y procesado con éxito!!!\n")
 
 def MainMenu():
