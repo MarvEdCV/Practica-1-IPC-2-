@@ -1,12 +1,13 @@
 
 import sys #Lo importo solamente para cerrar el programa
-
+import json
 #Variables globales
 lines = []
 line = []
 recordList = []
 lineSplit = []
 idList=[]
+placeList=[]
 
 #Clase creada para poder manejar objetos de tipo Datos para cada registro diferente
 class Data:
@@ -42,10 +43,34 @@ def ReadingData():
                 recordList.append(Data(lineSplit[0], lineSplit[1], lineSplit[2], lineSplit[3], lineSplit[4], lineSplit[5]))
                 # Aqui ya tengo una lista con todos los registros y sus debidos atributos
             elif (lineSplit[0] in idList):
-                print("\nxSe ha  encontrado un Id repetido!!!\n")
-    print(recordList)
+                print("\nSe ha  encontrado un Id repetido!!!\n")
+            if lineSplit[4] not in placeList:
+                placeList.append(lineSplit[4])
+
+    for printe in recordList:
+        print(printe.id)
+        print(printe.name)
+        print(printe.lastName)
+        print(printe.age)
+        print(printe.place)
+        print(printe.salary+'\n')
     print("\nArchivo CSV leído y procesado con éxito!!!\n")
 
+def Calculations():
+
+    promAge=0
+    dictionary={}
+    i=0
+    for datos in recordList:
+        cont = 0
+        temporalPlace = datos.place
+        for datos1 in recordList:
+            if(datos1.place == temporalPlace):
+                cont+=1
+                promAge = promAge + float(datos1.age)
+                print(cont)
+    #dictionary = dictionary.update({temporalPlace: {'Cadidatos': cont, 'Edad Promedio': (promAge / cont)}})
+    print(dictionary)
 def MainMenu():
     op=0
     while op < 1 or op > 4:
@@ -62,7 +87,7 @@ def MainMenu():
             ReadingData()
             MainMenu()
         elif op == 2:
-            print("dos")
+            Calculations()
             MainMenu()
         elif op == 3:
             print("tres")
