@@ -56,9 +56,17 @@ def ReadingData():
         print(printe.salary+'\n')
     print("\nArchivo CSV leído y procesado con éxito!!!\n")
 
+def conectDictionary(list): #Creo una función a la cual le paso una lista de diccionarios para unirlos en un solo diccionario
+    dictionarys = {}
+
+    for d in list:
+        dictionarys.update(d)
+    return dictionarys
+
 def Calculations():
     dictionary={}
     temporalList=[]
+    list = []
     for datos in placeList:
         cont = 0
         promAge=0
@@ -69,13 +77,20 @@ def Calculations():
                 cont+=1
                 promAge = promAge + float(datos1.age)
                 promSalary = promSalary + float(datos1.salary)
+                dictionary = {temporalPlace: {'Candidatos': cont, 'Edad Promedio': (promAge / cont),
+                                             'Pretensión Salarial': (promSalary / cont)}}
+                list.append(dictionary)
         temporalList.append(temporalPlace)
-        #print(cont)
-        #print(promAge/cont)
-        #print(promSalary/cont)
-        dictionary = {temporalPlace:{'Candidatos':cont,'Edad Promedio':(promAge/cont),'Pretensión Salarial':(promSalary/cont)}}
-    #dictionary = dictionary.update({temporalPlace: {'Cadidatos': cont, 'Edad Promedio': (promAge / cont)}})
-    print(dictionary)
+        print(cont)
+        print(promAge/cont)
+        print(promSalary/cont)
+        datass = conectDictionary(list)
+
+
+    print(datass)
+
+def generateJson():
+    print('en desarrollo')
 def MainMenu():
     op=0
     while op < 1 or op > 4:
