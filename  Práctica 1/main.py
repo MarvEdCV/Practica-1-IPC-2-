@@ -8,6 +8,7 @@ recordList = []
 lineSplit = []
 idList=[]
 placeList=[]
+datass = {}
 
 #Clase creada para poder manejar objetos de tipo Datos para cada registro diferente
 class Data:
@@ -26,6 +27,7 @@ def InvalidOp(op, limI, limS):
     else:
         print("Opcion valida\n")
 
+#Función para leer todos los datos del CSV y distribuirlos en una lista de objetos de tipo DATA con los atributos creados anteriormente
 def ReadingData():
     global lines , line, recordList, lineSplit,idList
     nameFile =  input('Escriba la ruta o el nombre(como ruta relativa) del archivo csv debe de'
@@ -48,6 +50,7 @@ def ReadingData():
                 placeList.append(lineSplit[4])
 
     for printe in recordList:
+        print(":::Resumen de datos procesados y filtrados:::")
         print(printe.id)
         print(printe.name)
         print(printe.lastName)
@@ -57,6 +60,7 @@ def ReadingData():
     print("\nArchivo CSV leído y procesado con éxito!!!\n")
 
 def conectDictionary(list): #Creo una función a la cual le paso una lista de diccionarios para unirlos en un solo diccionario
+
     dictionarys = {}
 
     for d in list:
@@ -64,33 +68,30 @@ def conectDictionary(list): #Creo una función a la cual le paso una lista de di
     return dictionarys
 
 def Calculations():
-    dictionary={}
-    temporalList=[]
-    list = []
-    for datos in placeList:
-        cont = 0
-        promAge=0
-        promSalary=0
-        temporalPlace = datos
-        for datos1 in recordList:
-            if(datos1.place == temporalPlace) and (temporalPlace not in temporalList):
-                cont+=1
-                promAge = promAge + float(datos1.age)
-                promSalary = promSalary + float(datos1.salary)
-                dictionary = {temporalPlace: {'Candidatos': cont, 'Edad Promedio': (promAge / cont),
-                                             'Pretensión Salarial': (promSalary / cont)}}
-                list.append(dictionary)
-        temporalList.append(temporalPlace)
-        print(cont)
-        print(promAge/cont)
-        print(promSalary/cont)
-        datass = conectDictionary(list)
-
-
-    print(datass)
-
+    if len(recordList) == 0:
+        print("No se ha ingresado ningun registro de archivo CSV\n")
+    elif len(recordList)>0:
+        dictionary={}
+        global datass
+        temporalList=[]
+        list = []
+        for datos in placeList:
+            cont = 0
+            promAge=0
+            promSalary=0
+            temporalPlace = datos
+            for datos1 in recordList:
+                if(datos1.place == temporalPlace) and (temporalPlace not in temporalList):
+                    cont+=1
+                    promAge = promAge + float(datos1.age)
+                    promSalary = promSalary + float(datos1.salary)
+                    dictionary = {temporalPlace: {'Candidatos': cont, 'Edad Promedio': (promAge / cont),'Pretensión Salarial Promedio': (promSalary / cont)}}
+                    list.append(dictionary)
+            temporalList.append(temporalPlace)
+            datass = conectDictionary(list)
 def generateJson():
-    print('en desarrollo')
+    with open('Datos Procesados.json','w',encoding="utf-8") as f:
+        json.dump(datass,f, ensure_ascii= False,indent=4)
 def MainMenu():
     op=0
     while op < 1 or op > 4:
@@ -110,7 +111,7 @@ def MainMenu():
             Calculations()
             MainMenu()
         elif op == 3:
-            print("tres")
+            generateJson()
             MainMenu()
         elif op == 4:
             sys.exit()
