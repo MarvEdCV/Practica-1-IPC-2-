@@ -57,18 +57,23 @@ def ReadingData():
     print("\nArchivo CSV leído y procesado con éxito!!!\n")
 
 def Calculations():
-
-    promAge=0
     dictionary={}
-    i=0
-    for datos in recordList:
+    temporalList=[]
+    for datos in placeList:
         cont = 0
-        temporalPlace = datos.place
+        promAge=0
+        promSalary=0
+        temporalPlace = datos
         for datos1 in recordList:
-            if(datos1.place == temporalPlace):
+            if(datos1.place == temporalPlace) and (temporalPlace not in temporalList):
                 cont+=1
                 promAge = promAge + float(datos1.age)
-                print(cont)
+                promSalary = promSalary + float(datos1.salary)
+        temporalList.append(temporalPlace)
+        #print(cont)
+        #print(promAge/cont)
+        #print(promSalary/cont)
+        dictionary = {temporalPlace:{'Candidatos':cont,'Edad Promedio':(promAge/cont),'Pretensión Salarial':(promSalary/cont)}}
     #dictionary = dictionary.update({temporalPlace: {'Cadidatos': cont, 'Edad Promedio': (promAge / cont)}})
     print(dictionary)
 def MainMenu():
