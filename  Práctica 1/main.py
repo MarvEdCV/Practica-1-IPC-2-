@@ -35,7 +35,7 @@ def ReadingData():
                       ' ingresar un nombre de ls siguiente manera(ejemplo.csv): \n')
     trucado = nameFile.split(".")
     if trucado[1] == 'CSV' or trucado[1] == 'csv':
-        fileCSV = open(nameFile,'r',encoding='UTF-8')#Abro el archivo en modo lectura
+        fileCSV = open(nameFile,'r')#Abro el archivo en modo lectura
 
         lines = fileCSV.readlines()#Guardo todas las lineas del CSV en un solo vector para luego manipularlo
         fileCSV.close()  # Cierro el archivo
