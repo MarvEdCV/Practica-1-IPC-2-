@@ -1,5 +1,5 @@
 
-import sys #Lo importo solamente para cerrar el programa
+#import sys #Lo importo solamente para cerrar el programa
 import json
 #Variables globales
 lines = []
@@ -113,5 +113,5 @@ def MainMenu():
             generateJson()
             MainMenu()
         elif op == 4:
-            sys.exit()
+            break
 MainMenu()
